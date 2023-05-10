@@ -14,7 +14,7 @@
 		<name>CustomTab</name>
 	</types>
 	<types>
-		<members>generic_Record_Page</members>
+		<members>custom_Account_Page</members>
 		<name>LightningComponentBundle</name>
 	</types>
 	<version>55.0</version>
