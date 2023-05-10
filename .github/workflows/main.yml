@@ -1,5 +1,4 @@
 name: Salesforce Deploy
-
 on:
   push:
     branches:
