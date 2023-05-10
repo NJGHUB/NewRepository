@@ -10,6 +10,10 @@
 		<name>CustomField</name>
 	</types>
 	<types>
+		<members>Generic_Record_Page</members>
+		<name>CustomTab</name>
+	</types>
+	<types>
 		<members>generic_Record_Page</members>
 		<name>LightningComponentBundle</name>
 	</types>
