@@ -4,7 +4,7 @@
 		<members>GenericRecordPageApex</members>
 		<members>GenericRecordPageApexTest</members>
 		<name>ApexClass</name>
-	</types>
+	</types> 
 	<types>
 		<members>Account.GitHub_Test_Field__c</members>
 		<name>CustomField</name>
