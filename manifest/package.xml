@@ -9,13 +9,5 @@
 		<members>Account.GitHub_Test_Field__c</members>
 		<name>CustomField</name>
 	</types>
-	<types>
-		<members>Generic_Record_Page</members>
-		<name>CustomTab</name>
-	</types>
-	<types> 
-		<members>custom_Account_Page</members>
-		<name>LightningComponentBundle</name>
-	</types>
 	<version>55.0</version>
 </Package>
