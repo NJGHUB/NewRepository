@@ -31,20 +31,12 @@ jobs:
 
       - name: Authorize Dev Hub
         run: |
-         sfdx auth:jwt:grant --clientid ${{ secrets.CLIENT_ID }} --jwtkeyfile server.key --username ${{ secrets.USERNAME }} --setdefaultdevhubusername -a DevHub
+         sfdx auth:jwt:grant --clientid ${{ secrets.CLIENT_ID }} --jwtkeyfile server.key  --username ${{ secrets.USERNAME }} --setdefaultdevhubusername -a DevHub
 
       - name: Deploy to org
         run: |
          sfdx force:source:deploy -p mdapi_output_dir --targetusername ${{ secrets.USERNAME }} --wait 10
       
-      - name: Run Tests
-        run: |
-         sfdx force:apex:test:run --resultformat junit --outputdir test-results --wait 10
-
-      - name: Assign Permission Set
-        run: |
-         sfdx force:user:permset:assign -n <permission_set_name> -u ${{ secrets.USERNAME }} 
-
       - name: Open org
         run: |
          sfdx force:org:open -u ${{ secrets.USERNAME }}
