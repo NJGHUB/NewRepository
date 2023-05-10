@@ -13,7 +13,7 @@
 		<members>Generic_Record_Page</members>
 		<name>CustomTab</name>
 	</types>
-	<types>
+	<types> 
 		<members>custom_Account_Page</members>
 		<name>LightningComponentBundle</name>
 	</types>
