@@ -37,6 +37,14 @@ jobs:
         run: |
          sfdx force:source:deploy -p mdapi_output_dir --targetusername ${{ secrets.USERNAME }} --wait 10
       
+      - name: Assign Permission Set
+        run: |
+         sfdx force:user:permset:assign -n <permission_set_name> -u ${{ secrets.USERNAME }} 
+
+      - name: Run all tests in org
+        run: |
+         sfdx force:apex:test:run -l RunAllTestsInOrg -w 10 -u ${{ secrets.USERNAME }}
+
       - name: Open org
         run: |
          sfdx force:org:open -u ${{ secrets.USERNAME }}
