@@ -4,7 +4,8 @@ public class GenericRecordPageApexTest
     @isTest
     public Static void getAccountListTest()
     {
-        GenericRecordPageApex.getAccountList();
+        List<Account> accList = GenericRecordPageApex.getAccountList();
+        System.debug('Account '+accList);
     }
     @isTest
     public Static void getContactListTest()

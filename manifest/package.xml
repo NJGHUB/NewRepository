@@ -9,5 +9,10 @@
 		<members>Account.GitHub_Test_Field__c</members>
 		<name>CustomField</name>
 	</types>
+	<types>
+		<members>genericParentPage</members>
+		<members>generic_Record_Page</members>
+		<name>LightningComponentBundle</name>
+	</types>
 	<version>55.0</version>
 </Package>
