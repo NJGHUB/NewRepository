@@ -6,10 +6,6 @@
 		<name>ApexClass</name>
 	</types>
 	<types>
-		<members>Generic_Record_Page</members>
-		<name>CustomTab</name>
-	</types>
-	<types>
 		<members>cmp</members>
 		<members>genericParentPage</members>
 		<name>LightningComponentBundle</name>
