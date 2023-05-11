@@ -36,7 +36,7 @@ jobs:
               
       - name: Deploy to org
         run: |
-          sfdx force:source:deploy -x manifest/package.xml -u ${{ secrets.SF_USERNAME }} -w 5 -l RunLocalTests
+          sfdx force:source:deploy -x manifest/package.xml -u ${{ secrets.USERNAME }} -w 5 -l RunLocalTests
               
       - name: Open org
         run: |
