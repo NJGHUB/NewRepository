@@ -35,8 +35,9 @@ jobs:
               
       - name: Deploy to org
         run: |
-         sfdx force:source:deploy -p mdapi_output_dir --targetusername ${{ secrets.USERNAME }}  
-         
+         sfdx force:source:convert -r unpackaged -d mdapi_output_dir --loglevel debug
+         sfdx force:source:deploy -x manifest/package.xml -u ${{ secrets.SF_USERNAME }} -w 5 -l RunLocalTests
+                  
       - name: Open org
         run: |
          sfdx force:org:open -u ${{ secrets.USERNAME }}
