@@ -18,26 +18,26 @@ jobs:
       - run: npm install -g sfdx-cli@latest   
       
       - name: Convert source to Metadata API format
-        run: |
+        run: |        
          mkdir unpackaged
          mv force-app/main/default unpackaged
-         sfdx force:source:convert -r unpackaged -d mdapi_output_dir --loglevel debug
+         cd unpackaged
+         sfdx force:source:convert -r . -d ../mdapi_output_dir --loglevel debug
+         cd ..
          rm -rf unpackaged
                
       - name: Copy package.xml
         run: |
          cp manifest/package.xml mdapi_output_dir/package.xml
           
-      
       - name: Authorize Dev Hub
         run: |
          sfdx auth:jwt:grant --clientid ${{ secrets.CLIENT_ID }} --jwtkeyfile server.key  --username ${{ secrets.USERNAME }} --setdefaultdevhubusername -a DevHub
               
       - name: Deploy to org
         run: |
-         sfdx force:source:convert -r unpackaged -d mdapi_output_dir --loglevel debug
-         sfdx force:source:deploy -x manifest/package.xml -u ${{ secrets.SF_USERNAME }} -w 5 -l RunLocalTests
-                  
+          sfdx force:source:deploy -x manifest/package.xml -u ${{ secrets.SF_USERNAME }} -w 5 -l RunLocalTests
+              
       - name: Open org
         run: |
          sfdx force:org:open -u ${{ secrets.USERNAME }}
