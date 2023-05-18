@@ -37,7 +37,8 @@ public class Custom_Account_Apex_Test
         }
         Insert oppList; 
     }
-    static testMethod void GetAccountTest() 
+    @isTest
+    static void GetAccountTest() 
     {
         List<Account> accList = [Select Name from Account Limit 5];
         System.debug('Account List '+accList);
@@ -45,33 +46,37 @@ public class Custom_Account_Apex_Test
         Test.startTest();
         Custom_Account_Apex.GetAccount();     
 		Test.stopTest();
-    } 
-    static testMethod void GetUserDomainNameTest() 
+    }
+    @isTest
+    static void GetUserDomainNameTest() 
     {
         Test.startTest();
         String DomainUrl = Custom_Account_Apex.GetUserDomainName(); 
         System.debug('DomainUrl '+DomainUrl);
 		Test.stopTest();
     }
-    static testMethod void GetRelatedContactsTest() 
+    @isTest
+    static void GetRelatedContactsTest() 
     {
-        Account acc = [Select Id from Account Where Name ='Test Single' Limit 1];
+        List<Account> acc = [Select Id from Account Where Name ='Test Single' Limit 1];
         
         Test.startTest();
-        List<Contact> conList = Custom_Account_Apex.GetRelatedContacts(acc.Id); 
+        List<Contact> conList = Custom_Account_Apex.GetRelatedContacts(acc[0].Id); 
         System.debug('conList '+conList);
 		Test.stopTest();
     }
-    static testMethod void GetRelatedOpportunityTest() 
+    @isTest
+    static void GetRelatedOpportunityTest() 
     {
-        Account acc = [Select Id from Account Where Name ='Test Single' Limit 1];
+        List<Account> acc = [Select Id from Account Where Name ='Test Single' Limit 1];
         
         Test.startTest();
-        List<Opportunity> oppList = Custom_Account_Apex.GetRelatedOpportunity(acc.Id); 
+        List<Opportunity> oppList = Custom_Account_Apex.GetRelatedOpportunity(acc[0].Id); 
         System.debug('oppList '+oppList);
 		Test.stopTest();
     }
-    static testMethod void GetBySearch() 
+    @isTest
+    static void GetBySearch() 
     {
         Test.startTest();
         List<Account> acc = Custom_Account_Apex.GetBySearch('Test'); 
