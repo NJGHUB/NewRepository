@@ -18,6 +18,7 @@ export default class Cmp extends LightningElement {
     @track recordsToDisplay = [];
 
     connectedCallback() {
+        console.log('GitHub');
         console.log(this.records, ' -- ', this.columns);
         this.showDataTable = true;
         // this.pageSize = this.pageSizeOptions[0];
