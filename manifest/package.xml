@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
 	<types>
-		<members>GenericRecordPageApex</members>
-		<members>GenericRecordPageApexTest</members>
+		<members>Custom_Account_Apex</members>
+		<members>Custom_Account_Apex_Test</members>
 		<name>ApexClass</name>
 	</types>
 	<types>
-		<members>cmp</members>
-		<members>genericParentPage</members>
+		<members>Custom_Account_Creator</members>
+		<name>CustomTab</name>
+	</types>
+	<types>
+		<members>custom_Account_Page</members>
 		<name>LightningComponentBundle</name>
 	</types>
 	<version>55.0</version>
