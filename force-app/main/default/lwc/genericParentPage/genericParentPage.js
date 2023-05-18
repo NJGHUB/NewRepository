@@ -5,7 +5,7 @@ import getOpportunityList from '@salesforce/apex/GenericRecordPageApex.getOpport
 
 
 const AccountColumns = [
-    { label: 'Name', fieldName: 'Name', sortable: true },
+    { label: 'Name', fieldName: 'Name', sortable: true }, 
     { label: 'Number Of Employees', fieldName: 'NumberOfEmployees', sortable: true },
     { label: 'Phone', fieldName: 'Phone', sortable: true },
     { label: 'Annual Revenue', fieldName: 'AnnualRevenue', sortable: true },
