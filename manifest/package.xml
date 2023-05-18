@@ -9,9 +9,5 @@
 		<members>Custom_Account_Creator</members>
 		<name>CustomTab</name>
 	</types>
-	<types>
-		<members>custom_Account_Page</members>
-		<name>LightningComponentBundle</name>
-	</types>
 	<version>55.0</version>
 </Package>
