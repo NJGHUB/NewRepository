@@ -34,7 +34,7 @@ jobs:
               
       - name: Deploy to org
         run: |
-          sfdx force:source:deploy -p mdapi_output_dir --targetusername ${{ secrets.USERNAME }} 
+          sfdx force:source:deploy -p mdapi_output_dir --targetusername ${{ secrets.USERNAME }} -w 10 -l RunLocalTests
             
       - name: Open org
         run: |
