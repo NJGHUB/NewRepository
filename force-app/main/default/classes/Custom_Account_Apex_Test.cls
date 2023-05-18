@@ -37,26 +37,22 @@ public class Custom_Account_Apex_Test
         }
         Insert oppList; 
     }
-    @isTest
-    static void GetAccountTest() 
+    static testMethod void GetAccountTest() 
     {
         List<Account> accList = [Select Name from Account Limit 5];
         System.debug('Account List '+accList);
-       
         Test.startTest();
         Custom_Account_Apex.GetAccount();     
 		Test.stopTest();
     }
-    @isTest
-    static void GetUserDomainNameTest() 
+    static testMethod void GetUserDomainNameTest() 
     {
         Test.startTest();
         String DomainUrl = Custom_Account_Apex.GetUserDomainName(); 
         System.debug('DomainUrl '+DomainUrl);
 		Test.stopTest();
     }
-    @isTest
-    static void GetRelatedContactsTest() 
+    static testMethod void GetRelatedContactsTest() 
     {
         List<Account> acc = [Select Id from Account Where Name ='Test Single' Limit 1];
         
@@ -65,8 +61,7 @@ public class Custom_Account_Apex_Test
         System.debug('conList '+conList);
 		Test.stopTest();
     }
-    @isTest
-    static void GetRelatedOpportunityTest() 
+    static testMethod void GetRelatedOpportunityTest() 
     {
         List<Account> acc = [Select Id from Account Where Name ='Test Single' Limit 1];
         
@@ -75,8 +70,7 @@ public class Custom_Account_Apex_Test
         System.debug('oppList '+oppList);
 		Test.stopTest();
     }
-    @isTest
-    static void GetBySearch() 
+    static testMethod void GetBySearch() 
     {
         Test.startTest();
         List<Account> acc = Custom_Account_Apex.GetBySearch('Test'); 
