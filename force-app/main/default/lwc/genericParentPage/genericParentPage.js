@@ -96,7 +96,7 @@ export default class GenericParentPage extends LightningElement {
     }
     getContactRecord() {
         this.Spinner = true;
-        console.log('GitHub ');
+        console.log('Hello GitHub ');
         getContactList()
             .then((result) => {
                 console.log('Contact Result ', result);
