@@ -1,10 +1,10 @@
 public class GenericRecordPageApex 
 {
-    @AuraEnabled
+    @AuraEnabled   
     public static List<Account> getAccountList() {
         return [Select Id,Name, Phone, NumberOfEmployees, Owner.Name, AnnualRevenue  from account limit 5000];
     }
-    @AuraEnabled
+    @AuraEnabled  
     public static List<Contact> getContactList() {
         return [SELECT Id, FirstName,LastName,AccountId,Account.Name,phone,email FROM contact limit 5000];
     }
