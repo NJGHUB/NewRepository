@@ -32,12 +32,9 @@ jobs:
         run: |
          sfdx auth:jwt:grant --clientid ${{ secrets.CLIENT_ID }} --jwtkeyfile server.key  --username ${{ secrets.USERNAME }} --setdefaultdevhubusername -a DevHub
 
-      - name: Set test class names variable
-        run: echo "TEST_CLASSES=${{ env.TEST_CLASSES }}" >> $GITHUB_ENV
- 
       - name: Deploy to org
         run: |
-          sfdx force:source:deploy -p mdapi_output_dir --targetusername ${{ secrets.USERNAME }} -w 10 -l RunSpecifiedTests -r $TEST_CLASSES
+          sfdx force:source:deploy -p mdapi_output_dir --targetusername ${{ secrets.USERNAME }} -w 10 -l RunSpecifiedTests -r ${{ secrets.TEST_CLASSES }}
 
       - name: Open org
         run: |
