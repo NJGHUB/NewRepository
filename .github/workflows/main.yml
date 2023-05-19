@@ -34,7 +34,7 @@ jobs:
 
       - name: Deploy to org
         run: |
-          sfdx force:source:deploy -p mdapi_output_dir --targetusername ${{ secrets.USERNAME }} -w 10 -l RunSpecifiedTests -r Custom_Account_Apex_Test
+          sfdx force:source:deploy -p mdapi_output_dir --targetusername ${{ secrets.USERNAME }} -w 10 -l RunSpecifiedTests -r ${{ secrets.TEST_CLASSES }}
 
       - name: Open org
         run: |
