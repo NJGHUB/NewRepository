@@ -17,27 +17,25 @@ jobs:
           node-version: '14.x'
       - run: npm install -g sfdx-cli@latest   
 
-      - name: Install Salesforce CLI plugins
+      - name: Convert source to Metadata API format
         run: |
-          sfdx plugins:install @salesforce/sfdx-scanner --global
-          sfdx plugins:install @salesforce/sfdx-trust --global
+         mkdir unpackaged
+         mv force-app/main/default unpackaged
+         sfdx force:source:convert -r unpackaged -d mdapi_output_dir --loglevel debug
+         rm -rf unpackaged
 
-      - name: Generate package.xml
+      - name: Create package.xml
         run: |
-          echo "${{ env.PackageFile }}" > package.xml
+         echo '<?xml version="1.0" encoding="UTF-8"?><Package xmlns="http://soap.sforce.com/2006/04/metadata"><version>50.0</version></Package>' > mdapi_output_dir/package.xml
 
       - name: Authorize Dev Hub
         run: |
-          sfdx auth:jwt:grant --clientid ${{ secrets.CLIENT_ID }} --jwtkeyfile server.key --username ${{ secrets.USERNAME }} --setdefaultdevhubusername -a DevHub
-
-      - name: Retrieve metadata
-        run: |
-          sfdx force:source:retrieve -x package.xml -u ${{ secrets.USERNAME }} -w 10
+         sfdx auth:jwt:grant --clientid ${{ secrets.CLIENT_ID }} --jwtkeyfile server.key  --username ${{ secrets.USERNAME }} --setdefaultdevhubusername -a DevHub
 
       - name: Deploy to org
         run: |
-          sfdx force:mdapi:deploy -d mdapi_output_dir -u ${{ secrets.USERNAME }} -w 10 -l RunLocalTests
+          sfdx force:source:deploy -p mdapi_output_dir --targetusername ${{ secrets.USERNAME }} -w 10 -l RunSpecifiedTests -r Custom_Account_Apex_Test
 
       - name: Open org
         run: |
-          sfdx force:org:open -u ${{ secrets.USERNAME }}
+         sfdx force:org:open -u ${{ secrets.USERNAME }}
