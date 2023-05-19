@@ -19,8 +19,8 @@ jobs:
 
       - name: Install Salesforce CLI plugins
         run: |
-          sfdx plugins:install --json @salesforce/sfdx-scanner
-          sfdx plugins:install --json @salesforce/sfdx-trust
+          sfdx plugins:install @salesforce/sfdx-scanner --global
+          sfdx plugins:install @salesforce/sfdx-trust --global
 
       - name: Generate package.xml
         run: |
