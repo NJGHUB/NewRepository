@@ -1,5 +1,5 @@
 name: Salesforce Deploy
-on: 
+on:
   push:
     branches:
       - MainBranch
@@ -10,47 +10,36 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-        
+
       - name: Install Salesforce CLI
         uses: actions/setup-node@v2
         with:
           node-version: '14.x'
       - run: npm install -g sfdx-cli@latest   
-      
-      - name: Convert source to Metadata API format
-        run: |
-         mkdir unpackaged
-         mv force-app/main/default unpackaged
-         sfdx force:source:convert -r unpackaged -d mdapi_output_dir --loglevel debug
-         rm -rf unpackaged
-               
-      - name: Create package.xml
-        run: |
-         echo '<?xml version="1.0" encoding="UTF-8"?><Package xmlns="http://soap.sforce.com/2006/04/metadata"><version>50.0</version></Package>' > mdapi_output_dir/package.xml
-                
-      - name: Authorize Dev Hub
-        run: |
-         sfdx auth:jwt:grant --clientid ${{ secrets.CLIENT_ID }} --jwtkeyfile server.key  --username ${{ secrets.USERNAME }} --setdefaultdevhubusername -a DevHub
-      
+
       - name: Retrieve package metadata
         run: |
-          sfdx force:mdapi:retrieve -r mdapi_output_dir -k package.xml -u ${{ secrets.USERNAME }} -w 10
+          mkdir mdapi_output_dir
+          sfdx force:mdapi:retrieve -r mdapi_output_dir -k manifest/package.xml -u ${{ secrets.USERNAME }} -w 10
           unzip -o mdapi_output_dir/unpackaged.zip -d mdapi_output_dir
 
-      - name: Get test class names
+      - name: Install Salesforce CLI plugins
         run: |
-          TEST_CLASSES=$(grep -r -l '<isTest>' mdapi_output_dir | xargs grep -l '</isTest>' | xargs grep -l '@isTest' | xargs grep -L '@isTest(SeeAllData=true)')
-          echo "Test Classes: $TEST_CLASSES"
-          echo "::set-env name=TEST_CLASSES::$TEST_CLASSES"
-          
+          sfdx plugins:install @salesforce/sfdx-scanner
+          sfdx plugins:install @salesforce/sfdx-trust
+
+      - name: Convert source to Metadata API format
+        run: |
+          sfdx force:source:convert -r mdapi_output_dir -d mdapi_output_dir_converted --loglevel debug
+
+      - name: Authorize Dev Hub
+        run: |
+          sfdx auth:jwt:grant --clientid ${{ secrets.CLIENT_ID }} --jwtkeyfile server.key --username ${{ secrets.USERNAME }} --setdefaultdevhubusername -a DevHub
+
       - name: Deploy to org
         run: |
-          sfdx force:source:deploy -p mdapi_output_dir --targetusername ${{ secrets.USERNAME }} -w 10 -l RunSpecifiedTests -r $TEST_CLASSES
-            
+          sfdx force:mdapi:deploy -d mdapi_output_dir_converted -u ${{ secrets.USERNAME }} -w 10 -l RunLocalTests
+
       - name: Open org
         run: |
-         sfdx force:org:open -u ${{ secrets.USERNAME }}
-
-
-
-
+          sfdx force:org:open -u ${{ secrets.USERNAME }}
