@@ -17,20 +17,15 @@ jobs:
           node-version: '14.x'
       - run: npm install -g sfdx-cli@latest   
 
-      - name: Retrieve package metadata
+      - name: Unzip package metadata
         run: |
           mkdir mdapi_output_dir
-          sfdx force:mdapi:retrieve -r mdapi_output_dir -k manifest/package.xml -u ${{ secrets.USERNAME }} -w 10
-          unzip -o mdapi_output_dir/unpackaged.zip -d mdapi_output_dir
+          unzip -o /manifest/package.xml -d mdapi_output_dir
 
       - name: Install Salesforce CLI plugins
         run: |
           sfdx plugins:install @salesforce/sfdx-scanner
           sfdx plugins:install @salesforce/sfdx-trust
-
-      - name: Convert source to Metadata API format
-        run: |
-          sfdx force:source:convert -r mdapi_output_dir -d mdapi_output_dir_converted --loglevel debug
 
       - name: Authorize Dev Hub
         run: |
@@ -38,7 +33,7 @@ jobs:
 
       - name: Deploy to org
         run: |
-          sfdx force:mdapi:deploy -d mdapi_output_dir_converted -u ${{ secrets.USERNAME }} -w 10 -l RunLocalTests
+          sfdx force:mdapi:deploy -d mdapi_output_dir -u ${{ secrets.USERNAME }} -w 10 -l RunLocalTests
 
       - name: Open org
         run: |
