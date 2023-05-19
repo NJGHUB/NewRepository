@@ -31,10 +31,21 @@ jobs:
       - name: Authorize Dev Hub
         run: |
          sfdx auth:jwt:grant --clientid ${{ secrets.CLIENT_ID }} --jwtkeyfile server.key  --username ${{ secrets.USERNAME }} --setdefaultdevhubusername -a DevHub
-              
+      
+      - name: Retrieve package metadata
+        run: |
+          sfdx force:mdapi:retrieve -r mdapi_output_dir -k package.xml -u ${{ secrets.USERNAME }} -w 10
+          unzip -o mdapi_output_dir/unpackaged.zip -d mdapi_output_dir
+
+      - name: Get test class names
+        run: |
+          TEST_CLASSES=$(grep -r -l '<isTest>' mdapi_output_dir | xargs grep -l '</isTest>' | xargs grep -l '@isTest' | xargs grep -L '@isTest(SeeAllData=true)')
+          echo "Test Classes: $TEST_CLASSES"
+          echo "::set-env name=TEST_CLASSES::$TEST_CLASSES"
+          
       - name: Deploy to org
         run: |
-          sfdx force:source:deploy -p mdapi_output_dir --targetusername ${{ secrets.USERNAME }} 
+          sfdx force:source:deploy -p mdapi_output_dir --targetusername ${{ secrets.USERNAME }} -w 10 -l RunSpecifiedTests -r $TEST_CLASSES
             
       - name: Open org
         run: |
