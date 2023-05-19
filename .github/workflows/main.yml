@@ -17,19 +17,23 @@ jobs:
           node-version: '14.x'
       - run: npm install -g sfdx-cli@latest   
 
-      - name: Unzip package metadata
-        run: |
-          mkdir mdapi_output_dir
-          unzip -o /manifest/package.xml -d mdapi_output_dir
-
       - name: Install Salesforce CLI plugins
         run: |
           sfdx plugins:install @salesforce/sfdx-scanner
           sfdx plugins:install @salesforce/sfdx-trust
 
+      - name: Generate package.xml
+        run: |
+          echo "${{ env.PackageFile }}" > package.xml
+
       - name: Authorize Dev Hub
         run: |
           sfdx auth:jwt:grant --clientid ${{ secrets.CLIENT_ID }} --jwtkeyfile server.key --username ${{ secrets.USERNAME }} --setdefaultdevhubusername -a DevHub
+
+      - name: Retrieve metadata
+        run: |
+          sfdx force:mdapi:retrieve -r mdapi_output_dir -k package.xml -u ${{ secrets.USERNAME }} -w 10
+          unzip -o mdapi_output_dir/unpackaged.zip -d mdapi_output_dir
 
       - name: Deploy to org
         run: |
