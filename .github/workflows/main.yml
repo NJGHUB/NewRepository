@@ -11,16 +11,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+   
       - name: Install Salesforce CLI
         uses: actions/setup-node@v2
         with:
           node-version: '14.x'
       - run: npm install -g sfdx-cli@latest   
-
-      - name: Install Salesforce CLI plugins
-        run: |
-          sfdx plugins:install @salesforce/sfdx-scanner
-          sfdx plugins:install @salesforce/sfdx-trust
 
       - name: Generate package.xml
         run: |
